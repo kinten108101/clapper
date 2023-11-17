@@ -257,7 +257,7 @@ class ClapperResumeDialog extends Gtk.MessageDialog
 var AboutDialog = GObject.registerClass({
     GTypeName: 'ClapperAboutDialog',
 },
-class ClapperAboutDialog extends Gtk.AboutDialog
+class ClapperAboutDialog extends GObject.Object
 {
     _init(window)
     {
@@ -292,23 +292,25 @@ class ClapperAboutDialog extends Gtk.AboutDialog
             _('GJS version: %s').format(gjsVer)
         ].join('\n');
 
-        super._init({
+        super._init({});
+
+        this.window = new Adw.AboutWindow({
             transient_for: window,
             destroy_with_parent: true,
             modal: true,
-            program_name: Misc.appName,
+            application_name: Misc.appName,
             comments: _('A GNOME media player powered by GStreamer'),
             version: pkg.version,
-            authors: ['Rafał Dzięgiel'],
+            developers: ['Rafał Dzięgiel'],
             artists: ['Rafał Dzięgiel'],
             /* TRANSLATORS: Put your name(s) here for credits or leave untranslated */
             translator_credits: _('translator-credits'),
             license_type: Gtk.License.GPL_3_0,
-            logo_icon_name: 'com.github.rafostar.Clapper',
+            application_icon: 'com.github.rafostar.Clapper',
             website: 'https://rafostar.github.io/clapper',
-            system_information: osInfo,
+            debug_info: String(osInfo),
         });
 
-        this.show();
+        this.window.show();
     }
 });
